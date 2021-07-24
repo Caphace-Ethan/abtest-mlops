@@ -87,6 +87,7 @@ def model_predict(model, X_test):
 if __name__ == "__main__":
     mlflow.set_experiment(experiment_name='Exp01-Logistic Regression')
     print("Loading Dataset")
+    # mlflow.sklearn.log_version("v1")
     df_browser1, df_browser2, df_platfromOs1, df_platfromOs2 = loadData()
 
     # Splitting the Dataset to train, test and Validation in ratio of 70%, 20%, and 10%
@@ -128,7 +129,21 @@ if __name__ == "__main__":
     mlflow.log_metric("Accuracy Dataset2", mean(scores2))
     mlflow.log_metric("Accuracy Dataset3", mean(scores3))
     mlflow.log_metric("Accuracy Dataset4", mean(scores4))
-    
+
+    cnf1_matrix = metrics.confusion_matrix(y1_test, target1_predictions)
+    cnf2_matrix = metrics.confusion_matrix(y2_test, target2_predictions)
+    cnf3_matrix = metrics.confusion_matrix(y3_test, target3_predictions)
+    cnf4_matrix = metrics.confusion_matrix(y4_test, target4_predictions)
+
+    cnf_matrices = [cnf1_matrix, cnf2_matrix, cnf3_matrix, cnf4_matrix]
+    i=1
+    for cnf_matrix in cnf_matrices:
+        sns.heatmap(pd.DataFrame(cnf_matrix), annot=True, cmap="YlGnBu", fmt='g')
+        plt.title(f"Figure {i}, Confusion matrix")
+        plt.ylabel('Actual')
+        plt.xlabel('Predicted')
+        plt.show()
+        i += 1
     # mlflow.log_metric("score", score)
     # mlflow.sklearn.log_model(lr, "model")
     print("Model saved in run %s" % mlflow.active_run().info.run_uuid)
