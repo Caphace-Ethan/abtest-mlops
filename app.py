@@ -1,21 +1,25 @@
-import os
-from random import random, randint
+import numpy as np
+from sklearn.linear_model import LogisticRegression
 
 import mlflow
-from mlflow import log_metric, log_param, log_artifacts
+import mlflow.sklearn
 
 if __name__ == "__main__":
-    mlflow.set_experiment(experiment_name='fgroup2')
-    # Log a parameter (key-value pair)
-    log_param("param1", randint(0, 100))
+    mlflow.set_experiment(experiment_name='TestExperiment')
+    X = np.array([-2, -1, 0, 1, 2, 1]).reshape(-1, 1)
+    y = np.array([0, 0, 1, 1, 1, 0])
+    lr = LogisticRegression()
+    lr.fit(X, y)
+    score = lr.score(X, y)
+    print("Score: %s" % score)
+    mlflow.log_metric("score", score)
+    mlflow.sklearn.log_model(lr, "model")
+    print("Model saved in run %s" % mlflow.active_run().info.run_uuid)
 
-    # Log a metric; metrics can be updated throughout the run
-    log_metric("foo", random())
 
-
-    # Log an artifact (output file)
-    if not os.path.exists("outputs"):
-        os.makedirs("outputs")
-    with open("outputs/test.txt", "w") as f:
-        f.write("hello world!")
-    log_artifacts("outputs")
+    # # Log an artifact (output file)
+    # if not os.path.exists("outputs"):
+    #     os.makedirs("outputs")
+    # with open("outputs/test.txt", "w") as f:
+    #     f.write("hello world!")
+    # log_artifacts("outputs")
