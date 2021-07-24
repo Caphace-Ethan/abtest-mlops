@@ -16,7 +16,7 @@ import warnings
 import mlflow
 import mlflow.sklearn
 
-dataset_path = '/home/ethan/Desktop/MachineLearning/10Academy/week2/data/'
+dataset_path = './data/'
 dataset_version = 'v1'
 
 
@@ -112,11 +112,6 @@ if __name__ == "__main__":
     target3_predictions = model_predict(fit_model(model,X3_train, y3_train), X3_test)
     target4_predictions = model_predict(fit_model(model,X4_train, y4_train), X4_test)
 
-    mlflow.log_metric("Chrome Mobile Dataset", target1_predictions)
-    mlflow.log_metric("Chrome Mobile WebView Dataset", target2_predictions)
-    mlflow.log_metric("Platfrom Os 6 Dataset", target3_predictions)
-    mlflow.log_metric("Platfrom Os 5 Dataset", target4_predictions)
-
     # evaluating the model
     cv = KFold(n_splits=5, random_state=1, shuffle=True)
     scores1 = cross_val_score(model, X1_train, y1_train, scoring='accuracy', cv=cv, n_jobs=-1)
@@ -128,21 +123,12 @@ if __name__ == "__main__":
     print('Accuracy for platformOs1 dataset (6): %.3f (%.3f)' % (mean(scores3), std(scores3)))
     print('Accuracy for platformOs2 dataset (5): %.3f (%.3f)' % (mean(scores4), std(scores4)))
 
-    # print ("Chrome Mobile Dataset Score", scores1)
-    # print ("Chrome Mobile WebView Dataset Score", scores2)
-    # print ("Platfrom Os 6 Dataset Score", scores3)
-    # print ("Platfrom Os 5 Dataset Score", scores4)
 
-    mlflow.log_metric("Chrome Mobile Dataset Score:", scores1)
-    mlflow.log_metric("Chrome Mobile WebView Dataset Score:", scores2)
-    mlflow.log_metric("Platfrom Os 6 Dataset Score:", scores3)
-    mlflow.log_metric("Platfrom Os 5 Dataset Score:", scores4)
-    # X = np.array([-2, -1, 0, 1, 2, 1]).reshape(-1, 1)
-    # y = np.array([0, 0, 1, 1, 1, 0])
-    # lr = LogisticRegression()
-    # lr.fit(X, y)
-    # score = lr.score(X, y)
-    # print("Score: %s" % score)
+    mlflow.log_metric("Accuracy Dataset1", mean(scores1))
+    mlflow.log_metric("Accuracy Dataset2", mean(scores2))
+    mlflow.log_metric("Accuracy Dataset3", mean(scores3))
+    mlflow.log_metric("Accuracy Dataset4", mean(scores4))
+    
     # mlflow.log_metric("score", score)
     # mlflow.sklearn.log_model(lr, "model")
     print("Model saved in run %s" % mlflow.active_run().info.run_uuid)
