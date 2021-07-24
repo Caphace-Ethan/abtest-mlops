@@ -1,28 +1,22 @@
-# Importing necessary packages
-import numpy as np
-import pandas as pd
-import streamlit as st
-import altair as alt
-import plotly.express as px
+import os
+from random import random, randint
 
-st.set_page_config(page_title="Dashboard | Telecom User Data Analysis ", layout="wide")
+import mlflow
+from mlflow import log_metric, log_param, log_artifacts
 
-def loadData():
-    pd.set_option('max_column', None)
-    loaded_data = pd.read_csv('./data/Resp_dataSet.csv')
-    return loaded_data
+if __name__ == "__main__":
+    mlflow.set_experiment(experiment_name='fgroup2')
+    # Log a parameter (key-value pair)
+    log_param("param1", randint(0, 100))
 
-def selectHandset():
-    df = loadData()
-    handset = st.multiselect("choose Device Type(s)", list(df['device_make'].unique()))
-    if handset:
-        df = df[np.isin(df, handset).any(axis=1)]
-        st.write(df)
+    # Log a metric; metrics can be updated throughout the run
+    log_metric("foo", random())
+    log_metric("foo", random() + 1)
+    log_metric("foo", random() + 2)
 
-
-
-st.markdown("<h1 style='color:#0b4eab;font-size:36px;border-radius:10px;'>Dashboard | Telecommunication Users Data Analysis </h1>", unsafe_allow_html=True)
-selectHandset()
-# st.markdown("<p style='padding:10px; background-color:#000000;color:#00ECB9;font-size:16px;border-radius:10px;'>Section Break</p>", unsafe_allow_html=True)
-st.title("Data Visualizations")
-# with st.beta_expander("Show More Graphs"):
+    # Log an artifact (output file)
+    if not os.path.exists("outputs"):
+        os.makedirs("outputs")
+    with open("outputs/test.txt", "w") as f:
+        f.write("hello world!")
+    log_artifacts("outputs")
