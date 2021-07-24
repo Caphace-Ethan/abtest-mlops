@@ -1,0 +1,4 @@
+artifact_location: file:///home/ethan/Desktop/Machine%20Learning/10Academy/week2/abtest-mlops/mlruns/1
+experiment_id: '1'
+lifecycle_stage: active
+name: fgroup2

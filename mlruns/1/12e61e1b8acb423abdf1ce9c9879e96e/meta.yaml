@@ -1,0 +1,15 @@
+artifact_uri: file:///home/ethan/Desktop/Machine%20Learning/10Academy/week2/abtest-mlops/mlruns/1/12e61e1b8acb423abdf1ce9c9879e96e/artifacts
+end_time: 1627088003544
+entry_point_name: ''
+experiment_id: '1'
+lifecycle_stage: active
+name: ''
+run_id: 12e61e1b8acb423abdf1ce9c9879e96e
+run_uuid: 12e61e1b8acb423abdf1ce9c9879e96e
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1627088003353
+status: 3
+tags: []
+user_id: ethan
