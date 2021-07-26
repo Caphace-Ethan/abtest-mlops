@@ -85,7 +85,7 @@ def model_predict(model, X_test):
 
 
 if __name__ == "__main__":
-    mlflow.set_experiment(experiment_name='Exp01-Decision Tree')
+    mlflow.set_experiment(experiment_name='Exp02-Decision Tree')
     print("Loading Dataset")
     # mlflow.sklearn.log_version("v1")
     df_browser1, df_browser2, df_platfromOs1, df_platfromOs2 = loadData()
